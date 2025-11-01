@@ -37,7 +37,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: gantt-chart-maker
           environment_name: gantt-chart-env
-          region: us-east-1
+          region: ap-southeast-2
           version_label: ${{ github.sha }}
           deployment_package: deploy.zip
           wait_for_deployment: true
