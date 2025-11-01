@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build Next.js app
         run: npm run build
@@ -39,4 +39,5 @@ jobs:
           environment_name: gantt-chart-env
           region: us-east-1
           version_label: ${{ github.sha }}
-          zip_file: deploy.zip
+          deployment_package: deploy.zip
+          wait_for_deployment: true
