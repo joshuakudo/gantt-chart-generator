@@ -1,4 +1,4 @@
-name: Deploy to AWS Elastic Beanstalk
+name: Deploy to AWS Elastic Beanstalk (Dev)
 
 on:
   push:
@@ -12,19 +12,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
-      - name: Build app
+      - name: Build Next.js app
         run: npm run build
 
+      # ✅ Create deployment package
+      - name: Create deployment zip
+        run: zip -r deploy.zip . -x '*.git*' 'node_modules/*'
+
+      # ✅ Deploy to Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
         with:
@@ -34,4 +39,4 @@ jobs:
           environment_name: gantt-chart-env
           region: us-east-1
           version_label: ${{ github.sha }}
-          zip_file: './'
+          zip_file: deploy.zip
